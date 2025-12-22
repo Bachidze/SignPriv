@@ -14,6 +14,8 @@ export class  AuthGuard implements CanActivate{
         try {
             const payLoad = this.jwtService.verify(token)
             request.userId = payLoad.userId
+            request.role = payLoad.role
+            console.log(payLoad)
         } catch (error) {
             throw new BadRequestException
         }
