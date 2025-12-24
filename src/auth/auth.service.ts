@@ -33,7 +33,7 @@ export class AuthService {
      }
 
     const accessToken = await this.jwtService.sign(payLoad,{expiresIn:"1h"})
-    return accessToken
+    return {accessToken}
   }
 
   async currentUser(userId:string){
