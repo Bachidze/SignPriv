@@ -1,8 +1,8 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { isValidObjectId, Model, Types } from 'mongoose';
 import { Post } from './schema/post.schema';
 import { UsersService } from 'src/users/users.service';
 
@@ -25,7 +25,9 @@ export class PostsService {
   }
 
   async findOne(id: string) {
+    if(!isValidObjectId(id)) throw new NotFoundException()
     const user = await this.postModel.findById(id).populate("user")
+    if(!user) throw new NotFoundException()
     return user;
   }
 
